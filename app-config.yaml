@@ -65,13 +65,18 @@ techdocs:
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   providers:
-    # See https://backstage.io/docs/auth/guest/provider
-    guest: {}
+    guest:
+      userEntityRef: user:default/john-smith
+      ownershipEntityRefs: [group:default/smith-family]
+      dangerouslyAllowOutsideDevelopment: true
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
 
 catalog:
+  processingInterval: { seconds: 3 }
+  stitchingStrategy:
+    mode: 'immediate'
   import:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
@@ -85,6 +90,12 @@ catalog:
     # Local example template
     - type: file
       target: ../../examples/template/template.yaml
+      rules:
+        - allow: [Template]
+
+    # Local example template
+    - type: file
+      target: ../../../red-hat-developer-hub-software-templates/templates/http/template.yaml
       rules:
         - allow: [Template]
 
